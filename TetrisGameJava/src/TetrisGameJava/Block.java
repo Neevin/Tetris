@@ -1,9 +1,11 @@
-import java.awt.*;
+package TetrisGameJava;
 
-/**
- * Created by Admin on 26.10.2016.
- */
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 class Block { // building element for Figure
+
     private int x, y;
 
 
@@ -23,6 +25,6 @@ class Block { // building element for Figure
 
     void paint(Graphics g, int color) {
         g.setColor(new Color(color));
-        g.drawRoundRect(x*BLOCK_SIZE+1, y*BLOCK_SIZE+1, BLOCK_SIZE-2, BLOCK_SIZE-2, ARC_RADIUS, ARC_RADIUS);
+        g.drawRoundRect(x*Settings.BLOCK_SIZE+1, y*Settings.BLOCK_SIZE+1, Settings.BLOCK_SIZE-2, Settings.BLOCK_SIZE-2, Settings.ARC_RADIUS, Settings.ARC_RADIUS);
     }
 }

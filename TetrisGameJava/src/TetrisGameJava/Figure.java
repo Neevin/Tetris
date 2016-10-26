@@ -1,20 +1,25 @@
-/**
- * Created by Admin on 26.10.2016.
- */
+package TetrisGameJava;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
+
 class Figure {
     private ArrayList<Block> figure = new ArrayList<Block>();
     private int[][] shape = new int[4][4];
     private int type, size, color;
     private int x = 3, y = 0; // starting left up corner
-
-
-    Figure() {
-        type = random.nextInt(SHAPES.length);
-        size = SHAPES[type][4][0];
-        color = SHAPES[type][4][1];
+    private int[][] mine;
+    Random random = new Random();
+    Figure(int[][] mine) {
+        this.mine = mine;
+        type = random.nextInt(Settings.SHAPES.length);
+        size = Settings.SHAPES[type][4][0];
+        color = Settings.SHAPES[type][4][1];
         if (size == 4) y = -1;
         for (int i = 0; i < size; i++)
-            System.arraycopy(SHAPES[type][i], 0, shape[i], 0, SHAPES[type][i].length);
+            System.arraycopy(Settings.SHAPES[type][i], 0, shape[i], 0, Settings.SHAPES[type][i].length);
         createFromShape();
     }
 
@@ -45,8 +50,8 @@ class Figure {
 
     boolean isTouchWall(int direction) {
         for (Block block : figure) {
-            if (direction == LEFT && (block.getX() == 0 || mine[block.getY()][block.getX() - 1] > 0)) return true;
-            if (direction == RIGHT && (block.getX() == FIELD_WIDTH - 1 || mine[block.getY()][block.getX() + 1] > 0)) return true;
+            if (direction == Settings.LEFT && (block.getX() == 0 || mine[block.getY()][block.getX() - 1] > 0)) return true;
+            if (direction == Settings.RIGHT && (block.getX() == Settings.FIELD_WIDTH - 1 || mine[block.getY()][block.getX() + 1] > 0)) return true;
         }
         return false;
     }
@@ -75,7 +80,7 @@ class Figure {
             for (int y = 0; y < size; y++)
                 if (shape[y][x] == 1) {
                     if (y + this.y < 0) return true;
-                    if (x + this.x < 0 || x + this.x > FIELD_WIDTH - 1) return true;
+                    if (x + this.x < 0 || x + this.x > Settings.FIELD_WIDTH - 1) return true;
                     if (mine[y + this.y][x + this.x] > 0) return true;
                 }
         return false;
@@ -85,7 +90,7 @@ class Figure {
     void rotateShape(int direction) {
         for (int i = 0; i < size/2; i++)
             for (int j = i; j < size-1-i; j++)
-                if (direction == RIGHT) { // clockwise
+                if (direction == Settings.RIGHT) { // clockwise
                     int tmp = shape[size-1-j][i];
                     shape[size-1-j][i] = shape[size-1-i][size-1-j];
                     shape[size-1-i][size-1-j] = shape[j][size-1-i];
@@ -102,12 +107,12 @@ class Figure {
 
 
     void rotate() {
-        rotateShape(RIGHT);
+        rotateShape(Settings.RIGHT);
         if (!isWrongPosition()) {
             figure.clear();
             createFromShape();
         } else
-            rotateShape(LEFT);
+            rotateShape(Settings.LEFT);
     }
 
 
@@ -115,5 +120,6 @@ class Figure {
         for (Block block : figure) block.paint(g, color);
     }
 }
+
 
 
