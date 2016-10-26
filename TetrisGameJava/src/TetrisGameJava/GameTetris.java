@@ -9,12 +9,10 @@ import java.util.*;
 class GameTetris extends JFrame {
 
 
-
     int[][] mine = new int[Settings.FIELD_HEIGHT + 1][Settings.FIELD_WIDTH]; // mine/glass
     JFrame frame;
     Figure figure = new Figure(mine);
     Canvas canvas = new Canvas(mine, figure);
-
 
 
     public static void main(String[] args) {
@@ -31,9 +29,15 @@ class GameTetris extends JFrame {
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (!Settings.gameOver) {
-                    if (e.getKeyCode() == Settings.DOWN) figure.drop();
-                    if (e.getKeyCode() == Settings.UP) figure.rotate();
-                    if (e.getKeyCode() == Settings.LEFT || e.getKeyCode() == Settings.RIGHT) figure.move(e.getKeyCode());
+                    if (e.getKeyCode() == Settings.DOWN) {
+                        figure.drop();
+                    }
+                    if (e.getKeyCode() == Settings.UP) {
+                        figure.rotate();
+                    }
+                    if (e.getKeyCode() == Settings.LEFT || e.getKeyCode() == Settings.RIGHT) {
+                        figure.move(e.getKeyCode());
+                    }
                 }
                 canvas.repaint();
             }
@@ -48,7 +52,9 @@ class GameTetris extends JFrame {
         while (!Settings.gameOver) {
             try {
                 Thread.sleep(Settings.SHOW_DELAY);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             canvas.repaint();
             checkFilling();
             if (figure.isTouchGround()) {
@@ -56,8 +62,9 @@ class GameTetris extends JFrame {
                 figure = new Figure(mine);
                 canvas.figure = figure;
                 Settings.gameOver = figure.isCrossGround(); // Is there space for a new figure?
-            } else
+            } else {
                 figure.stepDown();
+            }
         }
     }
 
@@ -67,17 +74,22 @@ class GameTetris extends JFrame {
         int countFillRows = 0;
         while (row > 0) {
             int filled = 1;
-            for (int col = 0; col < Settings.FIELD_WIDTH; col++)
+            for (int col = 0; col < Settings.FIELD_WIDTH; col++){
                 filled *= Integer.signum(mine[row][col]);
+            }
             if (filled > 0) {
                 countFillRows++;
-                for (int i = row; i > 0; i--) System.arraycopy(mine[i-1], 0, mine[i], 0, Settings.FIELD_WIDTH);
-            } else
+                for (int i = row; i > 0; i--){
+                    System.arraycopy(mine[i - 1], 0, mine[i], 0, Settings.FIELD_WIDTH);
+                }
+            } else{
                 row--;
+            }
         }
         if (countFillRows > 0) {
             Settings.gameScore += Settings.SCORES[countFillRows - 1];
             setTitle(Settings.TITLE_OF_PROGRAM + " : " + Settings.gameScore);
         }
-    }}
+    }
+}
  

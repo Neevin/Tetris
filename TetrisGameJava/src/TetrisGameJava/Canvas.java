@@ -33,7 +33,9 @@ class Canvas extends JPanel { // my canvas for painting
             for (int y = 0; y < Settings.GAME_OVER_MSG.length; y++)
                 for (int x = 0; x < Settings.GAME_OVER_MSG[y].length; x++)
                     if (Settings.GAME_OVER_MSG[y][x] == 1) g.fill3DRect(x*11+18, y*11+160, 10, 10, true);
-        } else
+        } else{
             figure.paint(g);
+        }
+
     }
 }

@@ -1,9 +1,6 @@
 package TetrisGameJava;
 
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
 class Block { // building element for Figure
 
     private int x, y;
